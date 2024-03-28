@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/small_dimen"
+    tools:context=".activity.MainActivity">
+
+    <TextView
+        android:id="@+id/album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/album"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/albumTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/album"
+        tools:text="Album Name" />
+
+    <TextView
+        android:id="@+id/performer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/performer"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/albumTitle" />
+
+    <TextView
+        android:id="@+id/performerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_dimen"
+        android:fontFamily="serif"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/performer"
+        app:layout_constraintTop_toBottomOf="@id/albumTitle"
+        tools:text="Ludovico Einaudi" />
+
+    <TextView
+        android:id="@+id/yearRelease"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/performerName"
+        tools:text="2010" />
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_dimen"
+        android:textColor="@color/gray"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/yearRelease"
+        app:layout_constraintTop_toBottomOf="@id/performerName"
+        tools:text="Classic" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/yearRelease"
+        tools:listitem="@layout/card_song" />
+</androidx.constraintlayout.widget.ConstraintLayout>
