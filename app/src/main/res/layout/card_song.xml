@@ -6,14 +6,16 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/small_dimen">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/playPauseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/play"
+        android:checkable="true"
         android:contentDescription="@string/description_play_pause_button"
-        android:src="@drawable/play_pause_selector"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RedundantDescriptionCheck" />
 
     <TextView
         android:id="@+id/songName"
@@ -21,34 +23,34 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_dimen"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/performer"
+        app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
         app:layout_constraintStart_toEndOf="@id/playPauseButton"
         app:layout_constraintTop_toTopOf="@id/playPauseButton"
         tools:text="The name of the song" />
 
-    <TextView
-        android:id="@id/performer"
+    <ImageView
+        android:id="@+id/download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/small_dimen"
-        android:textColor="@color/gray"
+        android:layout_marginEnd="@dimen/small_dimen"
+        android:contentDescription="@string/description_song_download_sign"
+        android:src="@drawable/download"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
-        app:layout_constraintStart_toEndOf="@id/playPauseButton"
-        app:layout_constraintTop_toBottomOf="@id/songName"
-        tools:text="Performer" />
+        app:layout_constraintEnd_toStartOf="@id/likeButton"
+        app:layout_constraintTop_toTopOf="@id/playPauseButton"
+        app:tint="@color/gray" />
 
     <ImageButton
         android:id="@+id/likeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/like_unlike_selector"
         android:contentDescription="@string/description_like_button"
-        android:src="@drawable/like_unlike_selector"
-        app:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
         app:layout_constraintEnd_toStartOf="@id/menu"
         app:layout_constraintTop_toTopOf="@id/playPauseButton"
-        app:tint="@color/gray"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
 
     <ImageButton
         android:id="@+id/menu"
@@ -61,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/playPauseButton"
         app:tint="@color/gray"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
