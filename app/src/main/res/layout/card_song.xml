@@ -3,25 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/small_dimen">
+    android:layout_height="wrap_content">
 
     <ImageButton
         android:id="@+id/playPauseButton"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/play"
-        android:checkable="true"
         android:contentDescription="@string/description_play_pause_button"
+        android:src="@drawable/play"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RedundantDescriptionCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/songName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/small_dimen"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
         app:layout_constraintStart_toEndOf="@id/playPauseButton"

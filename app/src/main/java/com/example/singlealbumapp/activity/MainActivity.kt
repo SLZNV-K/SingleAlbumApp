@@ -1,12 +1,12 @@
 package com.example.singlealbumapp.activity
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.example.singlealbumapp.MediaLifecycleObserver
 import com.example.singlealbumapp.adapter.OnInteractionListener
 import com.example.singlealbumapp.adapter.SongAdapter
 import com.example.singlealbumapp.databinding.ActivityMainBinding
@@ -16,28 +16,24 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private val albumViewModel: AlbumViewModel by viewModels()
-    private val observer = MediaLifecycleObserver()
-    private var currentSongIndex: Int = 0
     private lateinit var binding: ActivityMainBinding
+    private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
         val adapter = SongAdapter(object : OnInteractionListener {
 
             override fun onPlay(song: Song) {
-                playTrack(song)
+                albumViewModel.playSong(song.file)
             }
 
             override fun onSave(song: Song) {
-                TODO()
+                albumViewModel.saveSong(song)
             }
         })
 
         binding.apply {
-
             recycler.adapter = adapter
             albumViewModel.dataState.observe(this@MainActivity) { state ->
                 noSongs.isVisible = state.error
@@ -50,24 +46,13 @@ class MainActivity : AppCompatActivity() {
                 yearRelease.text = album.published
             }
 
-            observer.mediaPlayer?.setOnCompletionListener {
-                val songs = albumViewModel.data.value?.tracks ?: return@setOnCompletionListener
-                if (currentSongIndex == songs.size - 1) currentSongIndex = 0
-
-                if (currentSongIndex < songs.size - 1) {
-                    currentSongIndex++
-                    playTrack(songs[currentSongIndex])
-                }
-                initializeSeekBar()
-            }
-
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekbar: SeekBar?,
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    if (fromUser) observer.mediaPlayer?.seekTo(progress)
+                    if (fromUser) mediaPlayer?.seekTo(progress)
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -82,41 +67,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeSeekBar() {
+        mediaPlayer = albumViewModel.observer.mediaPlayer
         binding.apply {
-            seekBar.max = observer.mediaPlayer!!.duration
-            duration.text = convertToMMSS(observer.mediaPlayer?.duration.toString())
+            println("ViewModel: $mediaPlayer")
+            println("Time:" + convertToMMSS(mediaPlayer?.duration.toString()))
+
+            seekBar.max = mediaPlayer!!.duration
+            duration.text = convertToMMSS(mediaPlayer?.duration.toString())
             val handler = Handler()
             handler.postDelayed(object : Runnable {
                 override fun run() {
                     try {
-                        seekBar.progress = observer.mediaPlayer!!.currentPosition
+                        seekBar.progress = mediaPlayer!!.currentPosition
                         handler.postDelayed(this, 1000)
                     } catch (e: Exception) {
                         seekBar.progress = 0
                     }
                 }
             }, 0)
-        }
-    }
-
-    fun playTrack(song: Song) {
-        val songUrl =
-            "${BASE_URL}${song.file}"
-        observer.apply {
-            if (mediaPlayer?.isPlaying == true) {
-                pause()
-                mediaPlayer?.reset()
-                if (song.isPlaying) {
-                    mediaPlayer?.reset()
-                    mediaPlayer?.setDataSource(songUrl)
-                    play()
-                }
-            } else {
-                mediaPlayer?.reset()
-                mediaPlayer?.setDataSource(songUrl)
-                play()
-
-            }
         }
     }
 
@@ -129,9 +97,5 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    companion object {
-        const val BASE_URL =
-            "https://raw.githubusercontent.com/netology-code/andad-homeworks/master/09_multimedia/data/"
-    }
 
 }

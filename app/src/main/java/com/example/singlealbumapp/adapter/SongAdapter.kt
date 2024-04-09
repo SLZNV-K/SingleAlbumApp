@@ -41,13 +41,14 @@ class SongViewHolder(
 
             download.isVisible = song.saved
 
-            playPauseButton.setOnClickListener {
-                song.isPlaying = !song.isPlaying
+            playPauseButton.setImageResource(
                 if (song.isPlaying) {
-                    it.setBackgroundResource(R.drawable.pause)
+                    R.drawable.pause
                 } else {
-                    it.setBackgroundResource(R.drawable.play)
+                    R.drawable.play
                 }
+            )
+            playPauseButton.setOnClickListener {
                 onInteractionListener.onPlay(song)
             }
 
@@ -64,8 +65,8 @@ class SongViewHolder(
                         when (menuItem.itemId) {
 
                             R.id.save -> {
-                                onInteractionListener.onSave(song)
-
+//                                onInteractionListener.onSave(song)
+                                song.saved = !song.saved
                                 true
                             }
 

@@ -14,7 +14,7 @@ class SongRepositoryImpl {
 
     fun getAlbum(callback: (Album) -> Unit) {
         val request = Request.Builder()
-            .url("https://raw.githubusercontent.com/netology-code/andad-homeworks/master/09_multimedia/data/album.json")
+            .url("${BASE_URL}album.json")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -28,5 +28,10 @@ class SongRepositoryImpl {
                 callback(album)
             }
         })
+    }
+
+    companion object {
+        const val BASE_URL =
+            "https://raw.githubusercontent.com/netology-code/andad-homeworks/master/09_multimedia/data/"
     }
 }
